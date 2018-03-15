@@ -21,12 +21,13 @@ enum forlegningsmåter{A1=0, A2, B1, B2, C, D1, D2} forlm_num;
 float iB;
 float iN_mv;
 int iN_kv;
+float iZ;
 float cosFi;
 float virkningsgrad;
 int U;
 string forlm_Str;
 int valgt_forlm;
-float iZ;
+
 float lengde;
 int valgt_tverrsnitt;
 
@@ -49,31 +50,31 @@ void KabelOgVern() {
 	}
 	printf("In (k.v.): %2.i A\n", iN_kv);
 	get_iZ();
-	printf("\nTverrsnitt: %2.f mm^2 Iz: %2.f A\n", tverrsnitt[valgt_tverrsnitt], iZ);
+	printf("\nTverrsnitt: %.2f mm^2 Iz: %.2f A\n", tverrsnitt[valgt_tverrsnitt], iZ);
 	printf("------------------------------------\n\n");
-	printf("Ib: %2.fA\n", iB);
+	printf("Ib: %.2fA\n", iB);
 	printf("In(m.v): %.2fA\n", iN_mv);
 	printf("In(k.v): %iA\n", iN_kv);
-	printf("Iz: %2.fA\n", iZ);
+	printf("Iz: %.2fA\n", iZ);
 	printf("\nPress any key to continue...\n");
 	_getch();
 }
 	
 float calculate_iB(float effekt)
 {
-  int a= cosFi*virkningsgrad*U*sqrt(3);
+  float a= cosFi*virkningsgrad*U*sqrt(3);
   return effekt / a;
 }
 
-float søk_NEK(float x[])
+float søk_NEK(float iZ[], float tverrsnitt[])
 {
 	for (int i = 0; i < 5; i++)
 	{
-		printf("Sjekker %2.f mm^2 i NEK-52B-4\n", x[i]);
-		if (iN_mv <= x[i])
+		printf("Sjekker %.2f mm^2 (%.2fA) i NEK-52B-4\n", tverrsnitt[i], iZ[i]);
+		if (iN_mv <= iZ[i])
 		{
 			valgt_tverrsnitt= i;
-			return x[i];
+			return iZ[i];
 		}
 		else if(i==4)
 		{
@@ -118,7 +119,7 @@ void get_iB()
 	char har_iB;
 	printf("Vet du IB? (y/n)\n");
 	do {
-		scanf_s("%c", &har_iB);
+		scanf_s(" %c", &har_iB);
 
 		if (har_iB == 'y' || har_iB == 'Y')
 		{
@@ -142,25 +143,25 @@ void get_iZ()
 	switch (valgt_forlm)
 	{
 	case A1:
-		iZ = søk_NEK(forlm_A1);
+		iZ = søk_NEK(forlm_A1, tverrsnitt);
 		break;
 	case A2:
-		iZ = søk_NEK(forlm_A2);
+		iZ = søk_NEK(forlm_A2, tverrsnitt);
 		break;
 	case B1:
-		iZ = søk_NEK(forlm_B1);
+		iZ = søk_NEK(forlm_B1, tverrsnitt);
 		break;
 	case B2:
-		iZ = søk_NEK(forlm_B2);
+		iZ = søk_NEK(forlm_B2, tverrsnitt);
 		break;
 	case C:
-		iZ = søk_NEK(forlm_C);
+		iZ = søk_NEK(forlm_C, tverrsnitt);
 		break;
 	case D1:
-		iZ = søk_NEK(forlm_D1);
+		iZ = søk_NEK(forlm_D1, tverrsnitt);
 		break;
 	case D2:
-		iZ = søk_NEK(forlm_D2);
+		iZ = søk_NEK(forlm_D2, tverrsnitt);
 		break;
 	default:
 		printf("ERROR FINDING iZ, EXITING. . .\n");
