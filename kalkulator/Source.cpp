@@ -15,12 +15,15 @@ void trekant_areal();
 void matrix_calc();
 void cosinus();
 void equation();
+void sinus();
+void tangens();
+void Kabel();
 
 int main(void) {
-	bool true_input = true;
 	int valg;
 	do {
-		printf("1. Matrix kalkulator \n2. Areal av trekant\n3. Cosinus av vinkel.\n4. Likning\n");
+		system("CLS");
+		printf("1. Matrix kalkulator \n2. Areal av trekant\n3. Cosinus av vinkel.\n4. Sinus av vinkel\n5. Tangens av vinkel  \n6. Likning\n7. Kabel og vern\n0 to exit.\n");
 		scanf_s("%i", &valg);
 		switch (valg)
 		{
@@ -33,13 +36,23 @@ int main(void) {
 		case 3:
 			cosinus();
 			break;
-		case 4:
+		case 6:
 			equation();
 			break;
+		case 4:
+			sinus();
+			break;
+		case 5:
+			tangens();
+			break;
+		case 7:
+			//kabel();
+			break;
+
 		default:
 			break;
 		}
-	} while (!true_input);
+	} while (valg != 0);
 }
 
 void matrix_calc()
@@ -134,6 +147,8 @@ void trekant_areal()
 	areal = (grunnlinje*høyde) / 2;
 	printf("Areal av trekant er: %f", areal);
 	printf("\n\n");
+	Sleep(7000);
+	std::cin.ignore();
 }
 
 void cosinus()
@@ -141,10 +156,35 @@ void cosinus()
 	double vinkel;
 	printf("Skriv inn vinkel\n");
 	scanf_s("%lf", &vinkel);
-	vinkel = vinkel * (PI / 180);
-	double cosinus_vinkel = cos(vinkel);
-	printf("COS av %lf i RADIAN: %lf \n", vinkel, cosinus_vinkel);
+	double cosinus_vinkel = cos(vinkel * PI / 180);
+	printf("COS= %lf \n", cosinus_vinkel);
+	Sleep(7000);
+	std::cin.ignore();
 }
+
+
+void sinus()
+{
+	double vinkel;
+	printf("Skriv inn vinkel\n");
+	scanf_s("%lf", &vinkel);
+	double sinus_vinkel = sin(vinkel * PI / 180);
+	printf("SIN= %lf \n", sinus_vinkel);
+	Sleep(7000);
+	std::cin.ignore();
+}
+
+void tangens()
+{
+	double vinkel;
+	printf("Skriv inn vinkel\n");
+	scanf_s("%lf", &vinkel);
+	double tangens_vinkel = tan(vinkel * PI / 180);
+	printf("TAN= %lf \n", tangens_vinkel);
+	Sleep(7000);
+	std::cin.ignore();
+}
+
 
 void equation()
 {
@@ -159,18 +199,18 @@ void equation()
 	printf("LEFT SIDE = = %i\n", left_side);
 	printf("Enter right side \n");
 	scanf_s("%i", &right_side);
-	for (int i = -100000; i <= INT_MAXVAL; i++)
+	for (int i = -70000; i <= INT_MAXVAL; i++)
 	{
 		if (times_x*i + left_side == right_side)
 		{
 			x = i;
 			printf("%iX + %i, = %i\n", times_x, left_side, right_side);
 			printf("X = %i \n", x);
-			Sleep(10000);
+			Sleep(7000);
 			std::cin.ignore();
 			break;
 		}
 
 	}
-	
+
 }
