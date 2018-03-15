@@ -2,6 +2,7 @@
 #include <iostream>
 #include <Windows.h>
 #include <math.h>
+#include "KabelOgVern.h"
 #define PI  3.141592653589793238462643383279502884
 #define INT_MAXVAL 2147483647
 #define INT_MINVAL -2147483646
@@ -17,6 +18,8 @@ void cosinus();
 void equation();
 
 int main(void) {
+
+	KabelOgVern();
 	bool true_input = true;
 	int valg;
 	do {
@@ -55,7 +58,7 @@ void matrix_calc()
 	scanf_s("%f", &tall_1);
 	do {
 		printf("Skriv inn operator\n");
-		scanf_s(" %c", &tegn);
+		scanf_s("%c", &tegn);
 		if (tegn == '=') {
 			printf("Sum: %f \n\n", sum);
 			break;
@@ -161,6 +164,7 @@ void equation()
 	scanf_s("%i", &right_side);
 	for (int i = -100000; i <= INT_MAXVAL; i++)
 	{
+		printf("%i\n",i);
 		if (times_x*i + left_side == right_side)
 		{
 			x = i;
