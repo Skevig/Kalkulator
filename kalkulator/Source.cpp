@@ -18,7 +18,6 @@ void cosinus();
 void equation();
 void sinus();
 void tangens();
-void Kabel();
 
 int main(void) {
 
@@ -29,6 +28,7 @@ int main(void) {
 		system("CLS");
 		printf("1. Matrix kalkulator \n2. Areal av trekant\n3. Cosinus av vinkel.\n4. Sinus av vinkel\n5. Tangens av vinkel  \n6. Likning\n7. Kabel og vern\n0 to exit.\n");
 		scanf_s("%i", &valg);
+		system("CLS");
 		switch (valg)
 		{
 		case 1:
@@ -50,7 +50,7 @@ int main(void) {
 			tangens();
 			break;
 		case 7:
-			//kabel();
+			KabelOgVern();
 			break;
 
 		default:
@@ -72,7 +72,7 @@ void matrix_calc()
 	scanf_s("%f", &tall_1);
 	do {
 		printf("Skriv inn operator\n");
-		scanf_s("%c", &tegn);
+		scanf_s(" %c", &tegn);
 		if (tegn == '=') {
 			printf("Sum: %f \n\n", sum);
 			break;
@@ -112,9 +112,6 @@ float get_sum(float x, char tegn, float y)
 	}
 	return sum;
 }
-
-
-
 
 float division(float x, float y)
 {
@@ -188,7 +185,6 @@ void tangens()
 	Sleep(7000);
 	std::cin.ignore();
 }
-
 
 void equation()
 {
