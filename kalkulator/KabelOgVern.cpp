@@ -41,6 +41,7 @@ void get_iB();
 void get_iZ();
 void print_result();//Prints the results
 float spenningsfall(float tverrsnitt);
+void nor_regler();
 
 void KabelOgVern() {
 	printf("\n------KALKULATOR FOR KABEL OG VERN------\n NB: Bruk '.' og ikke ',' for desimaltall!!\n\n");
@@ -73,6 +74,9 @@ void KabelOgVern() {
 			ok_spenningsfall = true;
 		}
 	} while (!ok_spenningsfall);
+	print_result();
+	printf("Sjekker norske særregler (NEK-400-5-533.2 KRAV 2)...\n");
+	nor_regler();
 	print_result();
 	printf("\nPress any key to continue...\n");
 	_getch();
@@ -209,4 +213,60 @@ void print_result()
 	printf("In(k.v): %iA\n", iN_kv);
 	printf("Iz: %.2fA (%.2f mm^2)\n", iZ, tverrsnitt[valgt_tverrsnitt]);
 	printf("\n------------------------------------\n");
+}
+
+void nor_regler()
+{
+	float old_iZ = iZ;
+	if (valgt_tverrsnitt < 3) // Norske særregler gjelder kun for 3 første verdiene for tversnitt
+	{
+		switch (valgt_tverrsnitt)
+		{
+		case 0:
+			
+			if (valgt_forlm == A1 || valgt_forlm == A2)
+			{
+				if (iN_mv > 10)
+				{
+					valgt_tverrsnitt++;
+				}
+			}
+			else if (iZ > 13) // For forl.m. B,C og D.
+			{
+				valgt_tverrsnitt++;
+			}
+			break;
+		case 1:
+			if (valgt_forlm == A1 || valgt_forlm == A2)
+			{
+				if (iN_mv > 16)
+				{
+					valgt_tverrsnitt++;
+				}
+			}
+			else if (iN_mv > 16)
+			{
+				valgt_tverrsnitt++;
+			}
+			break;
+		case 2:
+			if (valgt_forlm == A1 || valgt_forlm == A2)
+			{
+				if (iN_mv > 20)
+				{
+					valgt_tverrsnitt++;
+				}
+			}
+			else if (iN_mv > 25)
+			{
+				valgt_tverrsnitt++;
+			}
+			break;
+		}
+	}
+	get_iZ();
+	if (old_iZ != iZ) 
+	{
+		printf("\nNy Iz = %.2f A (%.1f mm^2)- pga. norske saerregler.\n\n", iZ, tverrsnitt[valgt_tverrsnitt]);
+	}
 }
