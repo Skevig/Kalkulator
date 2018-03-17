@@ -70,12 +70,12 @@ void KabelOgVern() {
 		}
 		else
 		{
-			printf("Spenningsfall OK...\n");
+			printf("Spenningsfall OK!\n");
 			ok_spenningsfall = true;
 		}
 	} while (!ok_spenningsfall);
 	print_result();
-	printf("Sjekker norske særregler (NEK-400-5-533.2 KRAV 2)...\n");
+	printf("Sjekker norske saerregler (NEK-400-5-533.2 KRAV 2)...\n");
 	nor_regler();
 	print_result();
 	printf("\nPress any key to continue...\n");
@@ -217,56 +217,65 @@ void print_result()
 
 void nor_regler()
 {
-	float old_iZ = iZ;
-	if (valgt_tverrsnitt < 3) // Norske særregler gjelder kun for 3 første verdiene for tversnitt
-	{
-		switch (valgt_tverrsnitt)
+	float old_iZ;
+	bool has_changed = false;
+	do {
+		 old_iZ = iZ;
+		if (valgt_tverrsnitt < 3) // Norske særregler gjelder kun for 3 første verdiene for tversnitt
 		{
-		case 0:
-			
-			if (valgt_forlm == A1 || valgt_forlm == A2)
+			switch (valgt_tverrsnitt)
 			{
-				if (iN_mv > 10)
+			case 0:
+
+				if (valgt_forlm == A1 || valgt_forlm == A2)
+				{
+					if (iN_mv > 10)
+					{
+						valgt_tverrsnitt++;
+					}
+				}
+				else if (iN_mv > 13) // For forl.m. B,C og D.
 				{
 					valgt_tverrsnitt++;
 				}
-			}
-			else if (iZ > 13) // For forl.m. B,C og D.
-			{
-				valgt_tverrsnitt++;
-			}
-			break;
-		case 1:
-			if (valgt_forlm == A1 || valgt_forlm == A2)
-			{
-				if (iN_mv > 16)
+				break;
+			case 1:
+				if (valgt_forlm == A1 || valgt_forlm == A2)
+				{
+					if (iN_mv > 16)
+					{
+						valgt_tverrsnitt++;
+					}
+				}
+				else if (iN_mv > 16)
 				{
 					valgt_tverrsnitt++;
 				}
-			}
-			else if (iN_mv > 16)
-			{
-				valgt_tverrsnitt++;
-			}
-			break;
-		case 2:
-			if (valgt_forlm == A1 || valgt_forlm == A2)
-			{
-				if (iN_mv > 20)
+				break;
+			case 2:
+				if (valgt_forlm == A1 || valgt_forlm == A2)
+				{
+					if (iN_mv > 20)
+					{
+						valgt_tverrsnitt++;
+					}
+				}
+				else if (iN_mv > 25)
 				{
 					valgt_tverrsnitt++;
 				}
+				break;
 			}
-			else if (iN_mv > 25)
-			{
-				valgt_tverrsnitt++;
-			}
-			break;
 		}
-	}
-	get_iZ();
-	if (old_iZ != iZ) 
+		get_iZ();
+		if (old_iZ != iZ)
+		{
+			printf("\nNy Iz = %.2f A (%.1f mm^2)- pga. norske saerregler.\n", iZ, tverrsnitt[valgt_tverrsnitt]);
+			has_changed = true;
+		}
+	} while (old_iZ != iZ);
+	if (!has_changed) 
 	{
-		printf("\nNy Iz = %.2f A (%.1f mm^2)- pga. norske saerregler.\n\n", iZ, tverrsnitt[valgt_tverrsnitt]);
+		printf("Saerregler OK!\n");
 	}
 }
