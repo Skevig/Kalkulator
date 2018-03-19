@@ -27,7 +27,7 @@ int iN_kv;
 float iZ;
 float cosFi;
 float virkningsgrad;
-int U;
+float U;
 string forlm_Str;
 int valgt_forlm;
 float lengde;
@@ -61,7 +61,7 @@ void KabelOgVern() {
 	bool ok_spenningsfall = false;
 	do {
 		float deltaU = spenningsfall(tverrsnitt[valgt_tverrsnitt]);
-		printf("Delta U: %.2f prosent av %i V\n", deltaU, U);
+		printf("Delta U: %.2f prosent av %f V\n", deltaU, U);
 		if (deltaU >= 5)
 		{
 			valgt_tverrsnitt++;
@@ -138,7 +138,7 @@ float søk_NEK(float iZ[], float tverrsnitt[])
 void get_motorVariables()
 {
 	printf("Skriv inn spenning (V): ");
-	scanf_s("%i", &U);
+	scanf_s("%f", &U);
 	printf("\nSkriv inn virkningsgrad: ");
 	scanf_s("%f", &virkningsgrad);
 	printf("\nSkriv in CosPhi: ");
