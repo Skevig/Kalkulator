@@ -61,7 +61,7 @@ void KabelOgVern() {
 	bool ok_spenningsfall = false;
 	do {
 		float deltaU = spenningsfall(tverrsnitt[valgt_tverrsnitt]);
-		printf("Delta U: %.2f prosent av %f V\n", deltaU, U);
+		printf("Delta U: %.2f prosent av %.1f V\n", deltaU, U);
 		if (deltaU >= 5)
 		{
 			valgt_tverrsnitt++;
